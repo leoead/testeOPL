@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte seu Pendrive OPL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            border-radius: 20px;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .progress.limit-exceeded {
+            background: linear-gradient(90deg, #ff4444, #ff8888);
+        }
+
+        .progress.near-limit {
+            background: linear-gradient(90deg, #ffaa00, #ffcc00);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-box {
+            min-width: 200px;
+        }
+
+        .filter-box select {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .view-btn {
+            padding: 15px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .view-btn.active {
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border-color: transparent;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #ffd000, #ffaa00);
+            color: white;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(45deg, #e6b800, #cc8800);
+        }
+
+        .clear-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(45deg, #cc0000, #990000);
+        }
+
+        /* Aviso sobre jogos modificados - COMPACTO */
+        .modified-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 0 auto 15px auto;
+            text-align: center;
+            width: 100%;
+        }
+
+        .warning-icon {
+            font-size: 1.2em;
+            margin-bottom: 6px;
+        }
+
+        .warning-content {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .warning-content strong {
+            color: #ffc107;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9em;
+            line-height: 1.2;
+        }
+
+        .warning-content p {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            line-height: 1.3;
+        }
+
+        .warning-points {
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .warning-point {
+            background: rgba(255, 193, 7, 0.15);
+            padding: 6px 10px;
+            border-radius: 5px;
+            margin: 6px auto;
+            max-width: 650px;
+            width: 100%;
+            text-align: left;
+            font-size: 0.8em;
+            line-height: 1.3;
+        }
+
+        /* Vista de lista */
+        .list-view {
+            display: none;
+        }
+
+        .game-list-container {
+            max-height: 500px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .game-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .game-item:last-child {
+            border-bottom: none;
+        }
+
+        .game-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .game-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .game-title {
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .game-genre {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .game-size {
+            font-weight: bold;
+            color: #00dbde;
+            font-size: 0.9em;
+        }
+
+        /* Vista de capas */
+        .covers-view {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .cover-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .cover-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-item.selected {
+            outline: 3px solid #ffd000;
+        }
+
+        .cover-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cover-content {
+            padding: 10px;
+        }
+
+        .cover-title {
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-bottom: 5px;
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .cover-genre {
+            font-size: 0.75em;
+            color: #ffd000;
+            margin-bottom: 3px;
+        }
+
+        .cover-size {
+            font-size: 0.8em;
+            color: #00dbde;
+            font-weight: bold;
+        }
+
+        /* Aviso de limite */
+        .warning {
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff8888;
+            font-weight: bold;
+        }
+
+        .warning.near-limit {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            color: #ffcc00;
+        }
+
+        /* Loading e mensagens de erro */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #00dbde;
+            font-size: 1.2em;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            border-radius: 10px;
+            color: #ff8888;
+            margin: 20px 0;
+        }
+
+        .error a {
+            color: #00dbde;
+            text-decoration: underline;
+        }
+
+        /* Modal para visualização da capa */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 5% auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #ffd000;
+            z-index: 1001;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-info {
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #00dbde;
+        }
+
+        .modal-details {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box, .filter-box {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: row;
+            }
+            
+            .modified-warning {
+                padding: 6px 8px;
+            }
+            
+            .warning-icon {
+                font-size: 1em;
+            }
+            
+            .warning-content strong {
+                font-size: 0.8em;
+                margin-bottom: 4px;
+            }
+            
+            .warning-content p {
+                font-size: 0.75em;
+                margin-bottom: 6px;
+            }
+            
+            .warning-point {
+                padding: 4px 8px;
+                margin: 4px auto;
+                font-size: 0.7em;
+                text-align: center;
+                border-left: none;
+                border-top: 2px solid #ffc107;
+            }
+            
+            .covers-view {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .game-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .game-genre {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .covers-view {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .cover-img {
+                height: 180px;
+            }
+            
+            .modified-warning {
+                padding: 4px 6px;
+            }
+            
+            .warning-icon {
+                font-size: 0.9em;
+                margin-bottom: 4px;
+            }
+            
+            .warning-content strong {
+                font-size: 0.75em;
+            }
+            
+            .warning-point {
+                padding: 3px 6px;
+                margin: 3px auto;
+                font-size: 0.65em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Monte seu Pendrive OPL</h1>
+            <p class="subtitle">Limite: 58GB • Selecione seus jogos favoritos</p>
+        </header>
+
+        <div class="card">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+            <div class="stats">
+                <span><b id="count">0</b> jogos selecionados</span>
+                <span><b id="used">0</b> GB usados</span>
+                <span><b id="remaining">58</b> GB livres</span>
+            </div>
+        </div>
+
+        <!-- Área de carregamento/erro -->
+        <div id="loading" class="loading">
+            📥 Carregando lista de jogos...
+        </div>
+        
+        <div id="error" class="error" style="display: none;">
+            <h3>⚠ Erro ao carregar jogos</h3>
+            <p>Não foi possível carregar a lista de jogos.</p>
+            <p>Verifique se o arquivo <code>games.json</code> existe no diretório correto.</p>
+            <p><a href="#" onclick="loadGames()">Tentar novamente</a></p>
+        </div>
+
+        <!-- Controles (só aparecem depois de carregar) -->
+        <div id="controls" class="controls" style="display: none;">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="🔍 Buscar jogo por nome...">
+            </div>
+            
+            <div class="filter-box">
+                <select id="genreFilter">
+                    <option value="all">🎭 Todos os Gêneros</option>
+                    <!-- Gêneros serão preenchidos dinamicamente -->
+                </select>
+            </div>
+            
+            <div class="filter-box">
+                <select id="sortFilter">
+                    <option value="name">📝 Ordem Alfabética</option>
+                    <option value="size-asc">⬆️ Tamanho (Menor-Maior)</option>
+                    <option value="size-desc">⬇️ Tamanho (Maior-Menor)</option>
+                </select>
+            </div>
+            
+            <div class="view-toggle">
+                <button class="view-btn active" onclick="setView('list')">📋 Lista</button>
+                <button class="view-btn" onclick="setView('covers')">🖼️ Capas</button>
+            </div>
+        </div>
+
+        <div id="action-buttons" class="action-buttons" style="display: none;">
+            <button class="action-btn copy-btn" onclick="copyToClipboard()">
+                📋 Copiar Lista
+            </button>
+            <button class="action-btn clear-btn" onclick="clearList()">
+                🗑️ Limpar Lista
+            </button>
+        </div>
+
+        <!-- Aviso sobre jogos modificados - ADICIONADO AQUI -->
+        <div class="modified-warning">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+                <strong>AVISO IMPORTANTE SOBRE JOGOS MODIFICADOS (TRADUZIDOS/HACKS):</strong>
+                <p>Ao selecionar jogos não-originais (traduzidos para PT-BR, patches, versões alternativas), esteja ciente de que:</p>
+                
+                <div class="warning-points">
+                    <div class="warning-point">
+                        O desempenho não é garantido e pode variar conforme o modelo e estado do seu PlayStation 2. Alguns jogos modificados podem apresentar bugs, travamentos ou problemas de compatibilidade.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning" id="warning"></div>
+
+        <div id="list-view" class="list-view">
+            <div class="game-list-container" id="list-container"></div>
+        </div>
+
+        <div id="covers-view" class="covers-view"></div>
+    </div>
+
+    <!-- Modal para visualizar capa em tamanho maior -->
+    <div id="coverModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img id="modalImage" class="modal-img" src="">
+            <div class="modal-info">
+                <h3 id="modalTitle" class="modal-title"></h3>
+                <div id="modalSize" class="modal-details"></div>
+                <div id="modalGenre" class="modal-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_LIMIT = 58; // Limite de espaço em GB
+        const GAMES_JSON_URL = 'games.json'; // URL do arquivo JSON externo
+        
+        let currentView = 'list';
+        let selectedGames = new Set();
+        let gamesWithIds = [];
+        let allGenres = new Set();
+
+        // Elementos DOM
+        const loadingDiv = document.getElementById("loading");
+        const errorDiv = document.getElementById("error");
+        const controlsDiv = document.getElementById("controls");
+        const actionButtonsDiv = document.getElementById("action-buttons");
+        const listView = document.getElementById("list-view");
+        const coversView = document.getElementById("covers-view");
+        const search = document.getElementById("search");
+        const genreFilter = document.getElementById("genreFilter");
+        const sortFilter = document.getElementById("sortFilter");
+        const usedSpan = document.getElementById("used");
+        const remSpan = document.getElementById("remaining");
+        const countSpan = document.getElementById("count");
+        const progress = document.getElementById("progress");
+        const warning = document.getElementById("warning");
+        const modal = document.getElementById("coverModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalSize = document.getElementById("modalSize");
+        const modalGenre = document.getElementById("modalGenre");
+
+        // ===== CARREGAR JOGOS DO ARQUIVO EXTERNO =====
+        async function loadGames() {
+            try {
+                // Mostrar loading
+                loadingDiv.style.display = "block";
+                errorDiv.style.display = "none";
+                controlsDiv.style.display = "none";
+                actionButtonsDiv.style.display = "none";
+                
+                // Fazer requisição para o arquivo JSON
+                const response = await fetch(GAMES_JSON_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                // Processar os dados
+                gamesWithIds = data.games || data; // Suporta ambos os formatos
+                
+                if (!Array.isArray(gamesWithIds) || gamesWithIds.length === 0) {
+                    throw new Error("Formato de dados inválido");
+                }
+                
+                // Extrair todos os gêneros únicos
+                allGenres.clear();
+                gamesWithIds.forEach(game => {
+                    if (game[3]) { // game[3] é o gênero
+                        allGenres.add(game[3]);
+                    }
+                });
+                
+                // Ordenar alfabeticamente inicialmente
+                gamesWithIds.sort((a, b) => a[0].localeCompare(b[0], "pt-BR"));
+                
+                // Preencher o filtro de gêneros
+                populateGenreFilter();
+                
+                // Esconder loading e mostrar controles
+                loadingDiv.style.display = "none";
+                controlsDiv.style.display = "flex";
+                actionButtonsDiv.style.display = "flex";
+                
+                // Inicializar a interface
+                setView('list');
+                update();
+                
+            } catch (error) {
+                console.error("Erro ao carregar jogos:", error);
+                loadingDiv.style.display = "none";
+                errorDiv.style.display = "block";
+            }
+        }
+
+        // ===== PREENCHER FILTRO DE GÊNEROS =====
+        function populateGenreFilter() {
+            genreFilter.innerHTML = '<option value="all">🎭 Todos os Gêneros</option>';
+            
+            // Ordenar gêneros alfabeticamente
+            const sortedGenres = Array.from(allGenres).sort();
+            
+            sortedGenres.forEach(genre => {
+                const option = document.createElement("option");
+                option.value = genre;
+                option.textContent = getGenreIcon(genre) + " " + genre;
+                genreFilter.appendChild(option);
+            });
+        }
+
+        // ===== OBTER ÍCONE PARA GÊNERO =====
+        function getGenreIcon(genre) {
+            const icons = {
+                "Ação": "🎯",
+                "Aventura": "🗺️",
+                "Luta": "🥊",
+                "Esporte": "⚽",
+                "Corrida": "🏎️",
+                "Terror": "👻",
+                "Plataforma": "🎮",
+                "RPG": "⚔️",
+                "Estratégia": "♟️",
+                "Puzzle": "🧩",
+                "Simulação": "🏙️",
+                "Emuladores": "🕹️",
+                "Música": "🎵",
+                "Infantil": "🧸",
+                "Compilação": "📚"
+            };
+            return icons[genre] || "🎮";
+        }
+
+        // ===== FUNÇÕES UTILITÁRIAS =====
+        function gb(bytes) {
+            return bytes / (1024 * 1024 * 1024);
+        }
+
+        function getCoverUrl(gameId) {
+            return `covers/${gameId}_COV.png`;
+        }
+
+        // ===== DEFINIR VISTA =====
+        function setView(view) {
+            currentView = view;
+            
+            // Atualizar botões ativos
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`button[onclick="setView('${view}')"]`).classList.add('active');
+            
+            // Mostrar vista selecionada
+            listView.style.display = view === 'list' ? 'block' : 'none';
+            coversView.style.display = view === 'covers' ? 'grid' : 'none';
+            
+            // Aplicar filtros
+            applyFilters();
+        }
+
+        // ===== APLICAR FILTROS =====
+        function applyFilters() {
+            if (gamesWithIds.length === 0) return;
+            
+            const searchTerm = search.value.toLowerCase();
+            const selectedGenre = genreFilter.value;
+            const sortOption = sortFilter.value;
+            
+            // Filtrar jogos
+            let filteredGames = gamesWithIds.filter(g => {
+                const matchesSearch = g[0].toLowerCase().includes(searchTerm);
+                const matchesGenre = selectedGenre === 'all' || g[3] === selectedGenre;
+                return matchesSearch && matchesGenre;
+            });
+            
+            // Ordenar jogos
+            if (sortOption === 'name') {
+                filteredGames.sort((a, b) => a[0].localeCompare(b[0], "pt-BR"));
+            } else if (sortOption === 'size-asc') {
+                filteredGames.sort((a, b) => a[1] - b[1]);
+            } else if (sortOption === 'size-desc') {
+                filteredGames.sort((a, b) => b[1] - a[1]);
+            }
+            
+            // Renderizar de acordo com a visualização atual
+            if (currentView === 'list') {
+                renderListView(filteredGames);
+            } else {
+                renderCoversView(filteredGames);
+            }
+        }
+
+        // ===== RENDERIZAR VISTA DE LISTA =====
+        function renderListView(games) {
+            const listContainer = document.getElementById("list-container");
+            listContainer.innerHTML = "";
+            
+            if (games.length === 0) {
+                listContainer.innerHTML = '<div class="game-item" style="justify-content: center; color: rgba(255,255,255,0.5);">Nenhum jogo encontrado</div>';
+                return;
+            }
+            
+            games.forEach(g => {
+                const [title, size, id, genre] = g;
+                const isSelected = selectedGames.has(id);
+                const gameGB = gb(size).toFixed(2);
+                
+                const gameItem = document.createElement("div");
+                gameItem.className = "game-item";
+                gameItem.innerHTML = `
+                    <div class="game-info">
+                        <input type="checkbox" 
+                               class="game-checkbox"
+                               data-size="${size}" 
+                               data-id="${id}"
+                               ${isSelected ? 'checked' : ''}
+                               onchange="toggleGame('${id}', ${size}, this.checked)">
+                        <span class="game-title">${escapeHTML(title)}</span>
+                        <span class="game-genre">${escapeHTML(genre)}</span>
+                    </div>
+                    <span class="game-size">${gameGB} GB</span>
+                `;
+                listContainer.appendChild(gameItem);
+            });
+        }
+
+        // ===== RENDERIZAR VISTA DE CAPAS =====
+        function renderCoversView(games) {
+            coversView.innerHTML = "";
+            
+            if (games.length === 0) {
+                coversView.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">Nenhum jogo encontrado</div>';
+                return;
+            }
+            
+            games.forEach(g => {
+                const [title, size, id, genre] = g;
+                const isSelected = selectedGames.has(id);
+                const coverUrl = getCoverUrl(id);
+                const gameGB = gb(size).toFixed(2);
+                
+                const coverItem = document.createElement("div");
+                coverItem.className = `cover-item ${isSelected ? 'selected' : ''}`;
+                coverItem.onclick = () => toggleGame(id, size, !isSelected);
+                coverItem.ondblclick = () => showCover(coverUrl, title, size, genre);
+                
+                coverItem.innerHTML = `
+                    <img src="${coverUrl}" class="cover-img" alt="${escapeHTML(title)}" 
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x400/1a4fa3/ffffff?text=Capa+Não+Encontrada'">
+                    <div class="cover-content">
+                        <div class="cover-title">${escapeHTML(title)}</div>
+                        <div class="cover-genre">${escapeHTML(genre)}</div>
+                        <div class="cover-size">${gameGB} GB</div>
+                    </div>
+                `;
+                coversView.appendChild(coverItem);
+            });
+        }
+
+        // ===== TOGGLE GAME (SELECIONAR/DESSELECIONAR) =====
+        function toggleGame(gameId, size, isChecked) {
+            let totalSize = 0;
+            
+            // Calcular tamanho atual
+            gamesWithIds.forEach(g => {
+                const [, gSize, gId] = g;
+                if (selectedGames.has(gId)) {
+                    totalSize += gSize;
+                }
+            });
+            
+            if (isChecked) {
+                const newTotalSize = totalSize + size;
+                const newTotalGB = gb(newTotalSize);
+                
+                // Verificar se ultrapassa o limite
+                if (newTotalGB > TOTAL_LIMIT) {
+                    alert(`⚠ Limite excedido!\n\nEspaço atual: ${gb(totalSize).toFixed(2)} GB\nNovo jogo: ${gb(size).toFixed(2)} GB\nTotal: ${newTotalGB.toFixed(2)} GB\n\nLimite: ${TOTAL_LIMIT} GB\n\nRemova algum jogo ou escolha um menor.`);
+                    return false;
+                }
+                
+                selectedGames.add(gameId);
+            } else {
+                selectedGames.delete(gameId);
+            }
+            
+            update();
+            // Re-render para atualizar a visualização
+            applyFilters();
+            
+            return true;
+        }
+
+        // ===== ATUALIZAR INTERFACE =====
+        function update() {
+            let totalSize = 0;
+            let totalCount = selectedGames.size;
+            
+            // Calcular tamanho total dos jogos selecionados
+            gamesWithIds.forEach(g => {
+                const [, size, id] = g;
+                if (selectedGames.has(id)) {
+                    totalSize += size;
+                }
+            });
+            
+            const usedGB = gb(totalSize);
+            const remainingGB = Math.max(TOTAL_LIMIT - usedGB, 0);
+            const isLimitReached = usedGB > TOTAL_LIMIT;
+            
+            // Atualizar aviso
+            if (isLimitReached) {
+                warning.textContent = `⚠ LIMITE ULTRAPASSADO! ${(usedGB - TOTAL_LIMIT).toFixed(2)} GB além do permitido.`;
+                warning.className = "warning";
+                warning.style.display = "block";
+            } else if (usedGB > TOTAL_LIMIT * 0.9) {
+                warning.textContent = `⚠ ATENÇÃO: Aproximando do limite (${usedGB.toFixed(2)}/${TOTAL_LIMIT} GB)`;
+                warning.className = "warning near-limit";
+                warning.style.display = "block";
+            } else {
+                warning.style.display = "none";
+            }
+            
+            // Atualizar interface
+            usedSpan.textContent = usedGB.toFixed(2);
+            remSpan.textContent = remainingGB.toFixed(2);
+            countSpan.textContent = totalCount;
+            
+            const progressPercent = Math.min(usedGB / TOTAL_LIMIT * 100, 100);
+            progress.style.width = progressPercent + "%";
+            
+            // Cor da barra de progresso
+            if (isLimitReached) {
+                progress.className = "progress limit-exceeded";
+            } else if (usedGB > TOTAL_LIMIT * 0.9) {
+                progress.className = "progress near-limit";
+            } else {
+                progress.className = "progress";
+            }
+        }
+
+        // ===== MODAL DA CAPA =====
+        function showCover(coverUrl, title, size, genre) {
+            modalImage.src = coverUrl;
+            modalTitle.textContent = title;
+            modalSize.textContent = `Tamanho: ${gb(size).toFixed(2)} GB`;
+            modalGenre.textContent = `Gênero: ${genre}`;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // ===== LIMPAR LISTA =====
+        function clearList() {
+            if (selectedGames.size === 0) {
+                alert("A lista já está vazia!");
+                return;
+            }
+            
+            if (confirm(`Deseja realmente limpar toda a lista?\n\nVocê tem ${selectedGames.size} jogo(s) selecionado(s).`)) {
+                selectedGames.clear();
+                update();
+                applyFilters();
+                alert("✅ Lista limpa com sucesso!");
+            }
+        }
+
+        // ===== ENVIAR WHATSAPP =====
+        function sendWhats() {
+            if (selectedGames.size === 0) {
+                alert("Selecione ao menos um jogo");
+                return;
+            }
+            
+            const selectedTitles = [];
+            let totalSize = 0;
+            
+            gamesWithIds.forEach(g => {
+                const [title, size, id] = g;
+                if (selectedGames.has(id)) {
+                    selectedTitles.push(title);
+                    totalSize += size;
+                }
+            });
+            
+            const totalGB = gb(totalSize).toFixed(2);
+            const msg = `🎮 Lista de Jogos OPL:%0A%0A${selectedTitles.join("%0A")}%0A%0A📦 Total: ${selectedGames.size} jogos%0A💾 Espaço: ${totalGB} GB`;
+            window.open(`https://wa.me/?text=${msg}`, "_blank");
+        }
+
+        // ===== COPIAR PARA ÁREA DE TRANSFERÊNCIA =====
+        function copyToClipboard() {
+            if (selectedGames.size === 0) {
+                alert("Selecione ao menos um jogo para copiar");
+                return;
+            }
+            
+            const selectedTitles = [];
+            let totalSize = 0;
+            
+            gamesWithIds.forEach(g => {
+                const [title, size, id] = g;
+                if (selectedGames.has(id)) {
+                    selectedTitles.push(title);
+                    totalSize += size;
+                }
+            });
+            
+            const totalGB = gb(totalSize).toFixed(2);
+            const textToCopy = `🎮 Lista de Jogos OPL:\n\n${selectedTitles.join("\n")}\n\n📦 Total: ${selectedGames.size} jogos\n💾 Espaço: ${totalGB} GB`;
+            
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert("✅ Lista copiada para a área de transferência!\n\nCole em qualquer mensagem (WhatsApp, email, etc.)");
+                })
+                .catch(err => {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert("✅ Lista copiada para a área de transferência!\n\nCole em qualquer mensagem (WhatsApp, email, etc.)");
+                });
+        }
+
+        // ===== ESCAPAR HTML PARA SEGURANÇA =====
+        function escapeHTML(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ===== FECHAR MODAL AO CLICAR FORA =====
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // ===== EVENT LISTENERS =====
+        search.addEventListener("input", () => applyFilters());
+        genreFilter.addEventListener("change", () => applyFilters());
+        sortFilter.addEventListener("change", () => applyFilters());
+
+        // ===== INICIALIZAÇÃO =====
+        loadGames();
+    </script>
+</body>
+</html>

@@ -1,35 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monte seu Pendrive OPL</title>
-
-<!-- ⚠️ CSS ORIGINAL — NÃO ALTERADO -->
-<style>
-/* === TODO O SEU CSS PERMANECE IGUAL === */
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte seu Pendrive OPL</title>
+    <style>
+        /* ===== CSS ORIGINAL – NÃO ALTERADO ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: rgba(255, 255, 255, 0.7); font-size: 1.1em; }
+        .card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .progress-container { margin-bottom: 15px; }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            border-radius: 20px;
+            transition: width 0.3s, background 0.3s;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-box { flex: 1; min-width: 250px; }
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .filter-box { min-width: 200px; }
+        .filter-box select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .view-toggle { display: flex; gap: 10px; flex: 1; }
+        .view-btn {
+            padding: 15px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+        .view-btn.active { border: 2px solid #ffd000; }
+        .list-view { display: none; }
+        .covers-view {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .cover-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .cover-img { width: 100%; height: 220px; object-fit: cover; }
+        .cover-content { padding: 10px; }
+        .cover-title { font-size: 0.85em; height: 40px; overflow: hidden; }
+        .cover-genre { font-size: 0.75em; color: #ffd000; }
+        .cover-size { font-size: 0.8em; color: #00dbde; }
+    </style>
 </head>
-
 <body>
+
 <div class="container">
 <header>
 <h1>🎮 Monte seu Pendrive OPL</h1>
-<p class="subtitle">Limite: 57GB • Selecione seus jogos favoritos</p>
+<p class="subtitle">Limite: 58GB • Selecione seus jogos favoritos</p>
 </header>
-
-<div class="card">
-<div class="progress-container">
-<div class="progress-bar">
-<div class="progress" id="progress"></div>
-</div>
-</div>
-<div class="stats">
-<span><b id="count">0</b> jogos selecionados</span>
-<span><b id="used">0</b> GB usados</span>
-<span><b id="remaining">58</b> GB livres</span>
-</div>
-</div>
 
 <div class="controls">
 <div class="search-box">
@@ -39,27 +129,6 @@
 <div class="filter-box">
 <select id="genreFilter">
 <option value="all">🎭 Todos os Gêneros</option>
-<option value="Ação">🎯 Ação</option>
-<option value="Aventura">🗺️ Aventura</option>
-<option value="Luta">🥊 Luta</option>
-<option value="Esporte">⚽ Esporte</option>
-<option value="Corrida">🏎️ Corrida</option>
-<option value="Terror">👻 Terror</option>
-<option value="Plataforma">🎮 Plataforma</option>
-<option value="RPG">⚔️ RPG</option>
-<option value="Simulação">🏙️ Simulação</option>
-<option value="Emuladores">🕹️ Emuladores</option>
-<option value="Música">🎵 Música</option>
-<option value="Infantil">🧸 Infantil</option>
-<option value="Compilação">📚 Compilação</option>
-</select>
-</div>
-
-<div class="filter-box">
-<select id="sortFilter">
-<option value="name">📝 Ordem Alfabética</option>
-<option value="size-asc">⬆️ Tamanho (Menor-Maior)</option>
-<option value="size-desc">⬇️ Tamanho (Maior-Menor)</option>
 </select>
 </div>
 
@@ -69,10 +138,8 @@
 </div>
 </div>
 
-<div class="warning" id="warning"></div>
-
 <div id="list-view" class="list-view">
-<div class="game-list-container" id="list-container"></div>
+<div id="list-container"></div>
 </div>
 
 <div id="covers-view" class="covers-view"></div>
@@ -80,110 +147,87 @@
 
 <script>
 const TOTAL_LIMIT = 58;
+const GAMES_JSON_URL = 'games.json';
+
 let currentView = 'covers';
+let gamesWithIds = [];
 let selectedGames = new Set();
+let allGenres = new Set();
 
-const gamesWithIds = [
-["00 ULTIMATE RETRO",2039063700,"MULT_000.91","PS2","Emuladores"],
-["007 - EVERYTHING OR NOTHING (USA)",2254119112,"SLUS_207.51","PS2","Ação"],
-["18 WHEELER",313347568,"SLUS_202.10","PS2","Corrida"],
-["BLACK",1522718645,"SLUS_213.76","PS2","Ação"],
-["BULLY",3165021328,"SLUS_212.69","PS2","Ação"],
-["BURNOUT 3 - TAKEDOWN (USA)",2438315174,"SLUS_210.50","PS2","Corrida"],
-["CALL OF DUTY 3 (USA)",3114922700,"SLUS_214.26","PS2","Ação"]
-];
+const listView = document.getElementById("list-view");
+const coversView = document.getElementById("covers-view");
+const search = document.getElementById("search");
+const genreFilter = document.getElementById("genreFilter");
 
-// Ordenação inicial
-gamesWithIds.sort((a,b)=>a[0].localeCompare(b[0],"pt-BR"));
+function gb(b){ return b/(1024*1024*1024); }
+function getCoverUrl(id){ return `covers/${id}_COV.png`; }
 
-const listView=document.getElementById("list-view");
-const coversView=document.getElementById("covers-view");
-const search=document.getElementById("search");
-const genreFilter=document.getElementById("genreFilter");
-const sortFilter=document.getElementById("sortFilter");
-const usedSpan=document.getElementById("used");
-const remSpan=document.getElementById("remaining");
-const countSpan=document.getElementById("count");
-const progress=document.getElementById("progress");
-const warning=document.getElementById("warning");
+async function loadGames(){
+    const res = await fetch(GAMES_JSON_URL);
+    const data = await res.json();
+    gamesWithIds = data.games || data;
 
-function gb(b){return b/(1024*1024*1024);}
-function getCoverUrl(id){return `covers/${id}_COV.png`;}
+    allGenres.clear();
+    gamesWithIds.forEach(g=>{
+        if(g[4]) allGenres.add(g[4]); // ✅ GÊNERO CORRETO
+    });
+
+    genreFilter.innerHTML='<option value="all">🎭 Todos os Gêneros</option>';
+    [...allGenres].sort().forEach(g=>{
+        const o=document.createElement("option");
+        o.value=g; o.textContent=g;
+        genreFilter.appendChild(o);
+    });
+
+    setView('covers');
+}
 
 function setView(view){
-currentView=view;
-document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
-document.querySelector(`button[onclick="setView('${view}')"]`).classList.add('active');
-listView.style.display=view==='list'?'block':'none';
-coversView.style.display=view==='covers'?'grid':'none';
-applyFilters();
+    currentView=view;
+    listView.style.display=view==='list'?'block':'none';
+    coversView.style.display=view==='covers'?'grid':'none';
+    applyFilters();
 }
 
 function applyFilters(){
-const term=search.value.toLowerCase();
-const genre=genreFilter.value;
-let filtered=gamesWithIds.filter(g=>{
-return g[0].toLowerCase().includes(term) &&
-(genre==='all'||g[4]===genre);
-});
-if(sortFilter.value==='name') filtered.sort((a,b)=>a[0].localeCompare(b[0]));
-if(sortFilter.value==='size-asc') filtered.sort((a,b)=>a[1]-b[1]);
-if(sortFilter.value==='size-desc') filtered.sort((a,b)=>b[1]-a[1]);
-currentView==='list'?renderListView(filtered):renderCoversView(filtered);
+    const term=search.value.toLowerCase();
+    const genre=genreFilter.value;
+    const filtered=gamesWithIds.filter(g=>{
+        return g[0].toLowerCase().includes(term) &&
+               (genre==='all'||g[4]===genre); // ✅
+    });
+
+    if(currentView==='list') renderList(filtered);
+    else renderCovers(filtered);
 }
 
-function renderListView(games){
-const c=document.getElementById("list-container");
-c.innerHTML="";
-games.forEach(([t,s,id,p,g])=>{
-c.innerHTML+=`
-<div class="game-item">
-<div class="game-info">
-<input type="checkbox" onchange="toggleGame('${id}',${s},this.checked)">
-<span class="game-title">${t}</span>
-<span class="game-genre">${g}</span>
-</div>
-<span class="game-size">${gb(s).toFixed(2)} GB</span>
-</div>`;
-});
+function renderList(games){
+    const c=document.getElementById("list-container");
+    c.innerHTML="";
+    games.forEach(([t,s,id,p,g])=>{
+        c.innerHTML+=`<div>${t} - ${g}</div>`;
+    });
 }
 
-function renderCoversView(games){
-coversView.innerHTML="";
-games.forEach(([t,s,id,p,g])=>{
-coversView.innerHTML+=`
-<div class="cover-item" onclick="toggleGame('${id}',${s},true)">
-<img src="${getCoverUrl(id)}" class="cover-img">
-<div class="cover-content">
-<div class="cover-title">${t}</div>
-<div class="cover-genre">${g}</div>
-<div class="cover-size">${gb(s).toFixed(2)} GB</div>
-</div>
-</div>`;
-});
-}
-
-function toggleGame(id,size,check){
-check?selectedGames.add(id):selectedGames.delete(id);
-update();applyFilters();
-}
-
-function update(){
-let total=0;
-gamesWithIds.forEach(g=>{if(selectedGames.has(g[2])) total+=g[1];});
-usedSpan.textContent=gb(total).toFixed(2);
-remSpan.textContent=(TOTAL_LIMIT-gb(total)).toFixed(2);
-countSpan.textContent=selectedGames.size;
-progress.style.width=Math.min((gb(total)/TOTAL_LIMIT)*100,100)+"%";
+function renderCovers(games){
+    coversView.innerHTML="";
+    games.forEach(([t,s,id,p,g])=>{
+        coversView.innerHTML+=`
+        <div class="cover-item">
+            <img src="${getCoverUrl(id)}" class="cover-img">
+            <div class="cover-content">
+                <div class="cover-title">${t}</div>
+                <div class="cover-genre">${g}</div>
+                <div class="cover-size">${gb(s).toFixed(2)} GB</div>
+            </div>
+        </div>`;
+    });
 }
 
 search.addEventListener("input",applyFilters);
 genreFilter.addEventListener("change",applyFilters);
-sortFilter.addEventListener("change",applyFilters);
 
-setView('covers');
-update();
+loadGames();
 </script>
 </body>
 </html>
-

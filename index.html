@@ -677,7 +677,7 @@
 
     <script>
         const TOTAL_LIMIT = 58; // Limite de espaço em GB
-        const GAMES_JSON_URL = 'games.json'; // URL do arquivo JSON externo
+        const GAMES_JSON_URL = 'https://raw.githubusercontent.com/leoead/testeOPL/main/games.json'; // URL CORRIGIDA para seu repositório
         
         let currentView = 'list';
         let selectedGames = new Set();
@@ -714,7 +714,7 @@
                 controlsDiv.style.display = "none";
                 actionButtonsDiv.style.display = "none";
                 
-                // Fazer requisição para o arquivo JSON
+                // Fazer requisição para o arquivo JSON NO SEU GITHUB
                 const response = await fetch(GAMES_JSON_URL);
                 
                 if (!response.ok) {
@@ -722,13 +722,18 @@
                 }
                 
                 const data = await response.json();
+                console.log("Dados carregados do GitHub:", data);
                 
-                // Processar os dados
-                gamesWithIds = data.games || data; // Suporta ambos os formatos
+                // Processar os dados - ASSUMINDO QUE É UM ARRAY DE ARRAYS
+                // Formato: [["Título", tamanho, "ID", "Gênero"], ...]
+                gamesWithIds = data;
                 
                 if (!Array.isArray(gamesWithIds) || gamesWithIds.length === 0) {
-                    throw new Error("Formato de dados inválido");
+                    throw new Error("Formato de dados inválido ou lista vazia");
                 }
+                
+                // Verificar formato dos dados
+                console.log("Primeiros jogos:", gamesWithIds.slice(0, 3));
                 
                 // Extrair todos os gêneros únicos
                 allGenres.clear();
@@ -757,6 +762,13 @@
                 console.error("Erro ao carregar jogos:", error);
                 loadingDiv.style.display = "none";
                 errorDiv.style.display = "block";
+                errorDiv.innerHTML = `
+                    <h3>⚠ Erro ao carregar jogos</h3>
+                    <p>${error.message}</p>
+                    <p>Verifique se o arquivo <code>games.json</code> existe no GitHub.</p>
+                    <p>URL: ${GAMES_JSON_URL}</p>
+                    <p><a href="#" onclick="loadGames()">Tentar novamente</a></p>
+                `;
             }
         }
 
@@ -765,7 +777,7 @@
             genreFilter.innerHTML = '<option value="all">🎭 Todos os Gêneros</option>';
             
             // Ordenar gêneros alfabeticamente
-            const sortedGenres = Array.from(allGenres).sort();
+            const sortedGenres = Array.from(allGenres).sort((a, b) => a.localeCompare(b, "pt-BR"));
             
             sortedGenres.forEach(genre => {
                 const option = document.createElement("option");
@@ -803,7 +815,8 @@
         }
 
         function getCoverUrl(gameId) {
-            return `covers/${gameId}_COV.png`;
+            // URL CORRIGIDA para as capas no seu GitHub
+            return `https://raw.githubusercontent.com/leoead/testeOPL/main/covers/${gameId}_COV.png`;
         }
 
         // ===== DEFINIR VISTA =====

@@ -580,21 +580,19 @@
         // ===== CARREGAR DADOS DO GITHUB =====
         async function loadGamesFromGitHub() {
             try {
-                // URL do seu arquivo games.json no GitHub
-                // Substitua pelo URL direto do seu arquivo
-                const jsonUrl = 'https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/games.json';
+                // URL CORRIGIDA para seu repositório
+                const jsonUrl = 'https://raw.githubusercontent.com/leoead/testeOPL/main/games.json';
                 
-                // Para contornar CORS, você pode usar um proxy se necessário
-                // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-                // const response = await fetch(proxyUrl + jsonUrl);
+                console.log("Carregando jogos de:", jsonUrl);
                 
                 const response = await fetch(jsonUrl);
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Erro HTTP! status: ${response.status}`);
                 }
                 
                 const gamesData = await response.json();
+                console.log("Dados carregados:", gamesData);
                 
                 // Converter o JSON para o formato esperado
                 gamesWithIds = gamesData.map(game => [
@@ -603,6 +601,8 @@
                     game.id || game.codigo || `game_${Math.random().toString(36).substr(2, 9)}`,
                     game.genre || game.genero || "Desconhecido"
                 ]);
+                
+                console.log(`${gamesWithIds.length} jogos processados`);
                 
                 // Carregar gêneros únicos no filtro
                 loadGenres();
@@ -693,12 +693,8 @@
         }
 
         function getCoverUrl(gameId) {
-            // Ajuste esta URL conforme a estrutura do seu repositório
-            // Exemplo: se suas capas estão em uma pasta 'covers' no GitHub
-            return `https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/covers/${gameId}_COV.png`;
-            
-            // Ou se estiver no mesmo diretório que a página HTML
-            // return `covers/${gameId}_COV.png`;
+            // URL CORRIGIDA para suas capas no GitHub
+            return `https://raw.githubusercontent.com/leoead/testeOPL/main/covers/${gameId}_COV.png`;
         }
 
         // ===== DEFINIR VISTA =====

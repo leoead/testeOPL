@@ -574,7 +574,7 @@
     <div class="container">
         <header>
             <h1>🎮 Monte seu Pendrive OPL</h1>
-            <p class="subtitle">Limite: 58GB • Selecione seus jogos favoritos</p>
+            <p class="subtitle">Limite: 57GB • Selecione seus jogos favoritos</p> <!-- ALTERADO: 58GB para 57GB -->
         </header>
 
         <div class="card">
@@ -586,7 +586,7 @@
             <div class="stats">
                 <span><b id="count">0</b> jogos selecionados</span>
                 <span><b id="used">0</b> GB usados</span>
-                <span><b id="remaining">58</b> GB livres</span>
+                <span><b id="remaining">57</b> GB livres</span> <!-- ALTERADO: 58 para 57 -->
             </div>
         </div>
 
@@ -624,8 +624,8 @@
             </div>
             
             <div class="view-toggle">
-                <button class="view-btn active" onclick="setView('list')">📋 Lista</button>
-                <button class="view-btn" onclick="setView('covers')">🖼️ Capas</button>
+                <button class="view-btn" onclick="setView('list')">📋 Lista</button> <!-- REMOVIDO: active -->
+                <button class="view-btn active" onclick="setView('covers')">🖼️ Capas</button> <!-- MANTIDO: active -->
             </div>
         </div>
 
@@ -676,10 +676,10 @@
     </div>
 
     <script>
-        const TOTAL_LIMIT = 58; // Limite de espaço em GB
-        const GAMES_JSON_URL = 'https://raw.githubusercontent.com/leoead/testeOPL/main/games.json'; // URL CORRIGIDA para seu repositório
+        const TOTAL_LIMIT = 57; // ALTERADO: Limite de espaço em GB - 58 para 57
+        const GAMES_JSON_URL = 'https://raw.githubusercontent.com/leoead/testeOPL/main/games.json';
         
-        let currentView = 'list';
+        let currentView = 'covers'; // ALTERADO: 'list' para 'covers'
         let selectedGames = new Set();
         let gamesWithIds = [];
         let allGenres = new Set();
@@ -754,8 +754,8 @@
                 controlsDiv.style.display = "flex";
                 actionButtonsDiv.style.display = "flex";
                 
-                // Inicializar a interface
-                setView('list');
+                // Inicializar a interface - ABRIR EM CAPAS
+                setView('covers'); // ALTERADO: 'list' para 'covers'
                 update();
                 
             } catch (error) {

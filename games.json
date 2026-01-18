@@ -18,8 +18,6 @@
 ["Ben 10 - Protector of Earth (USA)", 2435695550, "SLUS_216.61", "Ação"],
 ["Ben 10 - Ultimate Alien - Cosmic Destruction (USA)", 1317258088, "SLUS_219.38", "Ação"],
 ["Billiards Xciting", 31929983, "SLES_518.59", "Esporte"],
-["Black (BR)", 1522718645, "Black (BR)", "Ação"],
-["Black (DUB)", 1539843319, "Black (DUB)", "Ação"]  
 ["Black", 1522718645, "SLUS_213.76", "Ação"],
 ["Bloody Roar 3", 544357731, "SLUS_202.12", "Luta"],
 ["Blowout", 216333413, "SLUS_208.50", "Ação"],
@@ -351,8 +349,11 @@
 ["Teenage Mutant Ninja Turtles 3 - Mutant Nightmare (USA)", 2299185776, "SLUS_211.84", "Luta"],
 ["Tom & Jerry - War of the Whiskers", 456593964, "SLUS_203.55", "Luta"],
 ["Yu Yu Hakusho - Dark Tournament (USA)", 1200057106, "SLUS_208.05", "Luta"],
-["Yuu Yuu Hakusho Forever (Japan)", 3834078568, "SLPS_254.99", "Luta"]
+["Yuu Yuu Hakusho Forever (Japan)", 3834078568, "SLPS_254.99", "Luta"],
+["Black (BR)", 1522718645, "Black (BR)", "Ação"],
+["Black (DUB)", 1539843319, "Black (DUB)", "Ação"],   
 ]
+
 
 
 

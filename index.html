@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monte seu Pendrive OPL</title>
     <style>
+        /* [MANTENHA TODO O CSS IGUAL] */
         * {
             margin: 0;
             padding: 0;
@@ -136,24 +137,18 @@
         .view-toggle {
             display: flex;
             gap: 10px;
-            flex: 1;
+            justify-content: center;
+            width: 100%;
         }
 
         .view-btn {
-            padding: 15px;
+            padding: 12px 20px;
             background: linear-gradient(45deg, #00dbde, #fc00ff);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex: 1;
         }
 
         .view-btn:hover {
@@ -211,58 +206,6 @@
 
         .clear-btn:hover {
             background: linear-gradient(45deg, #cc0000, #990000);
-        }
-
-        /* Aviso sobre jogos modificados - COMPACTO */
-        .modified-warning {
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin: 0 auto 15px auto;
-            text-align: center;
-            width: 100%;
-        }
-
-        .warning-icon {
-            font-size: 1.2em;
-            margin-bottom: 6px;
-        }
-
-        .warning-content {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .warning-content strong {
-            color: #ffc107;
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.9em;
-            line-height: 1.2;
-        }
-
-        .warning-content p {
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.85em;
-            line-height: 1.3;
-        }
-
-        .warning-points {
-            margin-top: 8px;
-            text-align: center;
-        }
-
-        .warning-point {
-            background: rgba(255, 193, 7, 0.15);
-            padding: 6px 10px;
-            border-radius: 5px;
-            margin: 6px auto;
-            max-width: 650px;
-            width: 100%;
-            text-align: left;
-            font-size: 0.8em;
-            line-height: 1.3;
         }
 
         /* Vista de lista */
@@ -387,7 +330,7 @@
             font-weight: bold;
         }
 
-        /* Aviso de limite */
+        /* Aviso */
         .warning {
             text-align: center;
             padding: 15px;
@@ -403,29 +346,6 @@
             background: rgba(255, 170, 0, 0.1);
             border: 1px solid rgba(255, 170, 0, 0.3);
             color: #ffcc00;
-        }
-
-        /* Loading e mensagens de erro */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #00dbde;
-            font-size: 1.2em;
-        }
-
-        .error {
-            text-align: center;
-            padding: 40px;
-            background: rgba(255, 68, 68, 0.1);
-            border: 1px solid rgba(255, 68, 68, 0.3);
-            border-radius: 10px;
-            color: #ff8888;
-            margin: 20px 0;
-        }
-
-        .error a {
-            color: #00dbde;
-            text-decoration: underline;
         }
 
         /* Modal para visualização da capa */
@@ -483,6 +403,29 @@
             font-size: 0.9em;
         }
 
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #00dbde;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #00dbde;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .controls {
@@ -495,34 +438,7 @@
             }
             
             .action-buttons {
-                flex-direction: row;
-            }
-            
-            .modified-warning {
-                padding: 6px 8px;
-            }
-            
-            .warning-icon {
-                font-size: 1em;
-            }
-            
-            .warning-content strong {
-                font-size: 0.8em;
-                margin-bottom: 4px;
-            }
-            
-            .warning-content p {
-                font-size: 0.75em;
-                margin-bottom: 6px;
-            }
-            
-            .warning-point {
-                padding: 4px 8px;
-                margin: 4px auto;
-                font-size: 0.7em;
-                text-align: center;
-                border-left: none;
-                border-top: 2px solid #ffc107;
+                flex-direction: column;
             }
             
             .covers-view {
@@ -548,25 +464,6 @@
             .cover-img {
                 height: 180px;
             }
-            
-            .modified-warning {
-                padding: 4px 6px;
-            }
-            
-            .warning-icon {
-                font-size: 0.9em;
-                margin-bottom: 4px;
-            }
-            
-            .warning-content strong {
-                font-size: 0.75em;
-            }
-            
-            .warning-point {
-                padding: 3px 6px;
-                margin: 3px auto;
-                font-size: 0.65em;
-            }
         }
     </style>
 </head>
@@ -590,20 +487,7 @@
             </div>
         </div>
 
-        <!-- Área de carregamento/erro -->
-        <div id="loading" class="loading">
-            📥 Carregando lista de jogos...
-        </div>
-        
-        <div id="error" class="error" style="display: none;">
-            <h3>⚠ Erro ao carregar jogos</h3>
-            <p>Não foi possível carregar a lista de jogos.</p>
-            <p>Verifique se o arquivo <code>games.json</code> existe no diretório correto.</p>
-            <p><a href="#" onclick="loadGames()">Tentar novamente</a></p>
-        </div>
-
-        <!-- Controles (só aparecem depois de carregar) -->
-        <div id="controls" class="controls" style="display: none;">
+        <div class="controls">
             <div class="search-box">
                 <input type="text" id="search" placeholder="🔍 Buscar jogo por nome...">
             </div>
@@ -611,7 +495,7 @@
             <div class="filter-box">
                 <select id="genreFilter">
                     <option value="all">🎭 Todos os Gêneros</option>
-                    <!-- Gêneros serão preenchidos dinamicamente -->
+                    <!-- Os gêneros serão carregados dinamicamente -->
                 </select>
             </div>
             
@@ -624,12 +508,15 @@
             </div>
             
             <div class="view-toggle">
-                <button class="view-btn active" onclick="setView('list')">📋 Lista</button>
-                <button class="view-btn" onclick="setView('covers')">🖼️ Capas</button>
+                <button class="view-btn" onclick="setView('list')">📋 Lista</button>
+                <button class="view-btn active" onclick="setView('covers')">🖼️ Capas</button>
             </div>
         </div>
 
-        <div id="action-buttons" class="action-buttons" style="display: none;">
+        <div class="action-buttons">
+            <button class="action-btn whatsapp-btn" onclick="sendWhats()">
+                📲 Enviar por WhatsApp
+            </button>
             <button class="action-btn copy-btn" onclick="copyToClipboard()">
                 📋 Copiar Lista
             </button>
@@ -638,22 +525,13 @@
             </button>
         </div>
 
-        <!-- Aviso sobre jogos modificados - ADICIONADO AQUI -->
-        <div class="modified-warning">
-            <div class="warning-icon">⚠️</div>
-            <div class="warning-content">
-                <strong>AVISO IMPORTANTE SOBRE JOGOS MODIFICADOS (TRADUZIDOS/HACKS):</strong>
-                <p>Ao selecionar jogos não-originais (traduzidos para PT-BR, patches, versões alternativas), esteja ciente de que:</p>
-                
-                <div class="warning-points">
-                    <div class="warning-point">
-                        O desempenho não é garantido e pode variar conforme o modelo e estado do seu PlayStation 2. Alguns jogos modificados podem apresentar bugs, travamentos ou problemas de compatibilidade.
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="warning" id="warning"></div>
+
+        <!-- Loading enquanto carrega os dados -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando lista de jogos...</p>
+        </div>
 
         <div id="list-view" class="list-view">
             <div class="game-list-container" id="list-container"></div>
@@ -677,18 +555,11 @@
 
     <script>
         const TOTAL_LIMIT = 58; // Limite de espaço em GB
-        const GAMES_JSON_URL = 'games.json'; // URL do arquivo JSON externo
-        
-        let currentView = 'list';
+        let currentView = 'covers';
         let selectedGames = new Set();
-        let gamesWithIds = [];
-        let allGenres = new Set();
+        let gamesWithIds = []; // Agora será carregado do JSON
 
         // Elementos DOM
-        const loadingDiv = document.getElementById("loading");
-        const errorDiv = document.getElementById("error");
-        const controlsDiv = document.getElementById("controls");
-        const actionButtonsDiv = document.getElementById("action-buttons");
         const listView = document.getElementById("list-view");
         const coversView = document.getElementById("covers-view");
         const search = document.getElementById("search");
@@ -704,97 +575,116 @@
         const modalTitle = document.getElementById("modalTitle");
         const modalSize = document.getElementById("modalSize");
         const modalGenre = document.getElementById("modalGenre");
+        const loading = document.getElementById("loading");
 
-        // ===== CARREGAR JOGOS DO ARQUIVO EXTERNO =====
-        async function loadGames() {
+        // ===== CARREGAR DADOS DO GITHUB =====
+        async function loadGamesFromGitHub() {
             try {
-                // Mostrar loading
-                loadingDiv.style.display = "block";
-                errorDiv.style.display = "none";
-                controlsDiv.style.display = "none";
-                actionButtonsDiv.style.display = "none";
+                // URL do seu arquivo games.json no GitHub
+                // Substitua pelo URL direto do seu arquivo
+                const jsonUrl = 'https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/games.json';
                 
-                // Fazer requisição para o arquivo JSON
-                const response = await fetch(GAMES_JSON_URL);
+                // Para contornar CORS, você pode usar um proxy se necessário
+                // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                // const response = await fetch(proxyUrl + jsonUrl);
+                
+                const response = await fetch(jsonUrl);
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const data = await response.json();
+                const gamesData = await response.json();
                 
-                // Processar os dados
-                gamesWithIds = data.games || data; // Suporta ambos os formatos
+                // Converter o JSON para o formato esperado
+                gamesWithIds = gamesData.map(game => [
+                    game.title || game.nome || "Sem título",
+                    game.size || game.tamanho || 0, // em bytes
+                    game.id || game.codigo || `game_${Math.random().toString(36).substr(2, 9)}`,
+                    game.genre || game.genero || "Desconhecido"
+                ]);
                 
-                if (!Array.isArray(gamesWithIds) || gamesWithIds.length === 0) {
-                    throw new Error("Formato de dados inválido");
-                }
-                
-                // Extrair todos os gêneros únicos
-                allGenres.clear();
-                gamesWithIds.forEach(game => {
-                    if (game[3]) { // game[3] é o gênero
-                        allGenres.add(game[3]);
-                    }
-                });
-                
-                // Ordenar alfabeticamente inicialmente
-                gamesWithIds.sort((a, b) => a[0].localeCompare(b[0], "pt-BR"));
-                
-                // Preencher o filtro de gêneros
-                populateGenreFilter();
-                
-                // Esconder loading e mostrar controles
-                loadingDiv.style.display = "none";
-                controlsDiv.style.display = "flex";
-                actionButtonsDiv.style.display = "flex";
+                // Carregar gêneros únicos no filtro
+                loadGenres();
                 
                 // Inicializar a interface
-                setView('list');
+                setView('covers');
                 update();
+                applyFilters();
+                
+                // Esconder loading
+                loading.style.display = 'none';
                 
             } catch (error) {
                 console.error("Erro ao carregar jogos:", error);
-                loadingDiv.style.display = "none";
-                errorDiv.style.display = "block";
+                loading.innerHTML = `
+                    <div style="color: #ff4444;">
+                        <p>❌ Erro ao carregar lista de jogos</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">${error.message}</p>
+                        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #00dbde; border: none; border-radius: 5px; color: white; cursor: pointer;">
+                            Tentar novamente
+                        </button>
+                    </div>
+                `;
+                
+                // Usar dados de fallback se houver erro
+                gamesWithIds = [
+                    // Alguns jogos de exemplo caso o JSON falhe
+                    ["God of War", 8589934592, "SLUS-12345", "Ação"],
+                    ["Grand Theft Auto: San Andreas", 12884901888, "SLUS-67890", "Ação"],
+                    ["Need for Speed: Most Wanted", 6442450944, "SLUS-54321", "Corrida"]
+                ];
+                
+                // Esconder loading após 2 segundos mesmo com erro
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    loadGenres();
+                    setView('covers');
+                    update();
+                    applyFilters();
+                }, 2000);
             }
         }
 
-        // ===== PREENCHER FILTRO DE GÊNEROS =====
-        function populateGenreFilter() {
-            genreFilter.innerHTML = '<option value="all">🎭 Todos os Gêneros</option>';
+        // ===== CARREGAR GÊNEROS =====
+        function loadGenres() {
+            const genreSet = new Set();
+            gamesWithIds.forEach(game => {
+                if (game[3] && game[3] !== "Desconhecido") {
+                    genreSet.add(game[3]);
+                }
+            });
             
             // Ordenar gêneros alfabeticamente
-            const sortedGenres = Array.from(allGenres).sort();
+            const sortedGenres = Array.from(genreSet).sort((a, b) => a.localeCompare(b, "pt-BR"));
             
+            // Limpar opções atuais (exceto a primeira)
+            genreFilter.innerHTML = '<option value="all">🎭 Todos os Gêneros</option>';
+            
+            // Adicionar gêneros
             sortedGenres.forEach(genre => {
                 const option = document.createElement("option");
                 option.value = genre;
-                option.textContent = getGenreIcon(genre) + " " + genre;
+                
+                // Adicionar emoji baseado no gênero
+                let emoji = "🎮";
+                if (genre.includes("Ação")) emoji = "🎯";
+                else if (genre.includes("Aventura")) emoji = "🗺️";
+                else if (genre.includes("Luta")) emoji = "🥊";
+                else if (genre.includes("Esporte")) emoji = "⚽";
+                else if (genre.includes("Corrida")) emoji = "🏎️";
+                else if (genre.includes("Terror")) emoji = "👻";
+                else if (genre.includes("Plataforma")) emoji = "🎮";
+                else if (genre.includes("RPG")) emoji = "⚔️";
+                else if (genre.includes("Estratégia")) emoji = "♟️";
+                else if (genre.includes("Puzzle")) emoji = "🧩";
+                else if (genre.includes("Simulação")) emoji = "🏙️";
+                else if (genre.includes("Música")) emoji = "🎵";
+                else if (genre.includes("Infantil")) emoji = "🧸";
+                
+                option.textContent = `${emoji} ${genre}`;
                 genreFilter.appendChild(option);
             });
-        }
-
-        // ===== OBTER ÍCONE PARA GÊNERO =====
-        function getGenreIcon(genre) {
-            const icons = {
-                "Ação": "🎯",
-                "Aventura": "🗺️",
-                "Luta": "🥊",
-                "Esporte": "⚽",
-                "Corrida": "🏎️",
-                "Terror": "👻",
-                "Plataforma": "🎮",
-                "RPG": "⚔️",
-                "Estratégia": "♟️",
-                "Puzzle": "🧩",
-                "Simulação": "🏙️",
-                "Emuladores": "🕹️",
-                "Música": "🎵",
-                "Infantil": "🧸",
-                "Compilação": "📚"
-            };
-            return icons[genre] || "🎮";
         }
 
         // ===== FUNÇÕES UTILITÁRIAS =====
@@ -803,11 +693,18 @@
         }
 
         function getCoverUrl(gameId) {
-            return `covers/${gameId}_COV.png`;
+            // Ajuste esta URL conforme a estrutura do seu repositório
+            // Exemplo: se suas capas estão em uma pasta 'covers' no GitHub
+            return `https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/covers/${gameId}_COV.png`;
+            
+            // Ou se estiver no mesmo diretório que a página HTML
+            // return `covers/${gameId}_COV.png`;
         }
 
         // ===== DEFINIR VISTA =====
         function setView(view) {
+            if (gamesWithIds.length === 0) return;
+            
             currentView = view;
             
             // Atualizar botões ativos
@@ -861,11 +758,6 @@
             const listContainer = document.getElementById("list-container");
             listContainer.innerHTML = "";
             
-            if (games.length === 0) {
-                listContainer.innerHTML = '<div class="game-item" style="justify-content: center; color: rgba(255,255,255,0.5);">Nenhum jogo encontrado</div>';
-                return;
-            }
-            
             games.forEach(g => {
                 const [title, size, id, genre] = g;
                 const isSelected = selectedGames.has(id);
@@ -893,11 +785,6 @@
         // ===== RENDERIZAR VISTA DE CAPAS =====
         function renderCoversView(games) {
             coversView.innerHTML = "";
-            
-            if (games.length === 0) {
-                coversView.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">Nenhum jogo encontrado</div>';
-                return;
-            }
             
             games.forEach(g => {
                 const [title, size, id, genre] = g;
@@ -1113,7 +1000,8 @@
         sortFilter.addEventListener("change", () => applyFilters());
 
         // ===== INICIALIZAÇÃO =====
-        loadGames();
+        // Carregar dados do GitHub quando a página carregar
+        window.addEventListener('DOMContentLoaded', loadGamesFromGitHub);
     </script>
 </body>
 </html>

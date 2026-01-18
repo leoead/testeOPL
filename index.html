@@ -624,8 +624,8 @@
             </div>
             
             <div class="view-toggle">
-                <button class="view-btn active" onclick="setView('list')">📋 Lista</button>
-                <button class="view-btn" onclick="setView('covers')">🖼️ Capas</button>
+                <button class="view-btn" onclick="setView('list')">📋 Lista</button>
+                <button class="view-btn active" onclick="setView('covers')">🖼️ Capas</button>
             </div>
         </div>
 
@@ -679,7 +679,7 @@
         const TOTAL_LIMIT = 58; // Limite de espaço em GB
         const GAMES_JSON_URL = 'games.json'; // URL do arquivo JSON externo
         
-        let currentView = 'list';
+        let currentView = 'covers'; // Alterado de 'list' para 'covers'
         let selectedGames = new Set();
         let gamesWithIds = [];
         let allGenres = new Set();
@@ -749,8 +749,8 @@
                 controlsDiv.style.display = "flex";
                 actionButtonsDiv.style.display = "flex";
                 
-                // Inicializar a interface
-                setView('list');
+                // Inicializar a interface - ABRIR EM CAPAS
+                setView('covers'); // Alterado de 'list' para 'covers'
                 update();
                 
             } catch (error) {
